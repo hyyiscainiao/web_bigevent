@@ -79,7 +79,7 @@ exports.login=(req,res)=>{
             status:0,
             message:'登陆成功',
             // 为了方便客户端使用TOLKEN，在服务器端直接拼接上Bearer的前缀
-            token:'Bearer'+tokenStr,
+            token:'Bearer '+tokenStr,
         })
     })
     

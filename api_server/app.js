@@ -4,7 +4,7 @@ const express=require('express')
 // 创建服务器的实例对象
 const app=express()
 const joi=require('joi')
-const userRouter=require('./router/user')
+
 
 
 // 导入并配置cors中间件
@@ -13,7 +13,8 @@ app.use(cors())
 
 //配置解析表单数据的中间件,注意：这个中间件，只能解析application/x-www-form-urlencoded格式的表单数据
 app.use(express.urlencoded({ extended: false }));
-
+// 托管静态资源文件
+app.use('/uploads', express.static('./uploads'))
 //响应数据的中间件
 app.use((req,res,next)=>{
     // status=0为成功,stutus=1为失败，默认将status的值设置为1，方便处理失败的情况
@@ -37,8 +38,23 @@ const expressJWT=require('express-jwt')
 //使用.unless({path:[/^\/api\//]})指定哪些接口不需要中间件
 app.use(expressJWT({secret:config.jwtSecretKey}).unless({path:[/^\/api\//]}))
 
-// 导入注册用户模块路由
+// 导入并使用注册用户模块路由
+const userRouter=require('./router/user')
 app.use('/api',userRouter)
+
+//导入并使用个人中心模块路由
+const userinfoRouter=require('./router/userinfo')
+app.use('/my',userinfoRouter)
+
+//导入并使用文章分享路由模块
+const artCateRouter=require('./router/artcate')
+//为文章分类的路由挂载统一的访问前缀/my/article
+app.use('/my/article',artCateRouter)
+//导入文章路由模块
+const articleRouter = require('./router/article')
+
+//为文章的路由挂载统一的访问前缀/my/article
+app.use('/my/article',articleRouter)
 
 //错误中间件
 app.use((err,req,res,next)=>{
