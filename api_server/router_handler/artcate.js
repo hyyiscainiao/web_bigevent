@@ -54,7 +54,7 @@ exports.getArticleById=(req,res)=>{
 
 const sql = `select * from ev_article_cate where id<>? and (name=? or alias=?)`
 exports.updateCateById = (req, res) => {
-    db.query(sql, [req.body.Id, req.body.name, req.body.alias], (err, results) => {
+    db.query(sql, [req.body.id, req.body.name, req.body.alias], (err, results) => {
         // 执行 SQL 语句失败
         if (err) return res.cc(err)
       
@@ -65,7 +65,7 @@ exports.updateCateById = (req, res) => {
       
         // TODO：更新文章分类
         const sql = `update ev_article_cate set ? where Id=?`
-        db.query(sql, [req.body, req.body.Id], (err, results) => {
+        db.query(sql, [req.body, req.body.id], (err, results) => {
             // 执行 SQL 语句失败
             if (err) return res.cc(err)
           

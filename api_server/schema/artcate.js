@@ -25,7 +25,7 @@ exports.get_cate_schema={
 
 exports.update_cate_schema={
     body:{
-        Id:id,
+        id:id,
         name,
         alias,
     },

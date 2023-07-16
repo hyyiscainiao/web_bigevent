@@ -1,3 +1,4 @@
+const { count } = require('console')
 const db = require('../db/index')
 const path = require('path')
 exports.addArticle=(req,res)=>{
@@ -27,4 +28,18 @@ db.query(sql, articleInfo, (err, results) => {
     // 发布文章成功
     res.cc('发布文章成功', 0)
   })
+}
+// const sql2 = 'SELECT count(*) FROM test.ev_articles where is_delete = 0;'
+const sql1='select * from ev_articles a join  ev_article_cate b on a.cate_id=b.id where a.is_delete=0 order by a.id asc'
+exports.getArticles=(req,res)=>{
+    db.query(sql1,(err,results)=>{
+        if(err) return res.cc(err)
+        res.send({
+          status:0,
+          message:'获取文章分类列表成功！',
+          data:results,
+      })
+    })
+  
+    
 }
